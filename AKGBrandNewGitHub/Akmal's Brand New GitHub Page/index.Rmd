@@ -1,0 +1,17 @@
+---
+title: "Akmal Gifari"
+image: "AkmalGit.jpg"
+links:
+  - label: LinkedIn
+    url: "https://linkedin.com/in/akmal-gifari-21b144285/"
+  - label: GitHub
+    url: "https://github.com/AKGifari"
+site: distill::distill_website
+output:
+  postcards::trestles
+---
+ 
+Welcome! In this website I show my previous projects in quantitative analysis in the University of Essex, specifically in the module GV300. 
+
+For more information, contact me via email, which are available in my LinkedIn and GitHub pages.
+
