@@ -1,0 +1,15 @@
+name: "."
+title: "mfeo"
+theme: postcards.css
+description: |
+  mfeo  
+output_dir: "docs"
+navbar:
+  right:
+    - text: "About"
+      href: about.html
+    - text: "Home"
+      href: index.html
+    - text: "[HW4]KidIQ"      # add
+      href: HW4sample1.html   # add      
+output: distill::distill_article
