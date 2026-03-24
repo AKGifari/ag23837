@@ -1,0 +1,11 @@
+---
+title: "About Akmal"
+description: |
+  Akmal is a student of international relations and politics who has started a journey in geopolitics and international economics, and recently, political and social data science. Akmal has a history of extracurricular and volunteer activities, and I have learnt many transferable skills, including teamwork and discipline, that can be utilised in the workplace.
+  Outside of university and work, Akmal likes Star Wars and character illustration.
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
