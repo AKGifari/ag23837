@@ -1,6 +1,6 @@
 ---
 title: "Kid IQ"
-listing: _posts/
+listing: posts
 ---
 
 By: Akmal G

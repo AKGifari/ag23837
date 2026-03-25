@@ -1,0 +1,20 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About Akmal",
+      "description": "Akmal is a student of international relations and politics who has started a journey in geopolitics and international economics, and recently, political and social data science. Akmal has a history of extracurricular and volunteer activities, and I have learnt many transferable skills, including teamwork and discipline, that can be utilised in the workplace.\nOutside of university and work, Akmal likes Star Wars and character illustration.",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2026-03-24T02:16:58+00:00"
+    },
+    {
+      "path": "index.html",
+      "title": "Akmal Gifari",
+      "author": [],
+      "contents": "\n\n          \n          \n          GV300 Website\n          \n          \n          About\n          Home\n          Blog\n          ☰\n          \n          \n      \n        \n          \n            \n              \n            \n              Akmal Gifari\n            \n            \n              \n                \n                    \n                      \n                        LinkedIn\n                      \n                    \n                  \n                                    \n                    \n                      \n                        GitHub\n                      \n                    \n                  \n                                  \n            \n          \n        \n        \n        \n          \n            Welcome! In this website I show my previous projects in\n            quantitative analysis in the University of Essex,\n            specifically in the module GV300.\n            For more information, contact me via email, which are\n            available in my LinkedIn and GitHub pages.\n          \n        \n      \n    \n\n    \n      \n        \n          \n            \n              \n            \n              Akmal Gifari\n            \n            \n              \n                \n                                    \n                    \n                      LinkedIn\n                    \n                  \n                                    \n                    \n                      GitHub\n                    \n                  \n                                  \n              \n            \n            \n              Welcome! In this website I show my previous projects in\n              quantitative analysis in the University of Essex,\n              specifically in the module GV300.\n              For more information, contact me via email, which are\n              available in my LinkedIn and GitHub pages.\n            \n        \n      \n    \n\n    \n    \n    ",
+      "last_modified": "2026-03-24T09:04:08+00:00"
+    }
+  ],
+  "collections": ["posts/posts.json"]
+}

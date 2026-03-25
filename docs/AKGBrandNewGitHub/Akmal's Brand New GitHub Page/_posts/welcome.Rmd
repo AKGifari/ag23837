@@ -1,6 +1,6 @@
 ---
 title: "Kid IQ"
-listing: _posts/
+listing: posts
 ---
 
 By: Akmal G
@@ -27,6 +27,7 @@ library(tidyverse)
 My approach was to create categories that combine mother's education and work status. Then, I processed child outcomes vary across these combined categories. 
 
 ```{r, create categories}
+
 # Download and mutate data
 kidiq.raw <- read_csv("kidiq-2.csv", show_col_types = FALSE)
 kidiq <- kidiq.raw %>%
