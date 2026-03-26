@@ -1,10 +1,9 @@
 ---
-title: "KidIQ"
+title: "Societal Determinism: How do Mothers have an Influence on a Child's IQ?"
 output: distill::distill_article
 ---
 
-By: Akmal G
-Date: November 4th, 2025
+By: Akmal G on November 4th, 2025
 
 For one of my first works while learning from the University of Essex, I created a visualization that shows how a mother's education, IQ and work status combined to influence children' test scores. The visualization revealed a number of patterns of advantages and disadvantages across different family backgrounds.
 

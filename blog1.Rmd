@@ -1,0 +1,138 @@
+---
+title: "Electoral Turnout in the UK"
+output: distill::distill_article
+---
+
+By: Akmal G on November 4th, 2025
+
+### Step 1 Load Packages
+Firstly, I download several packages. Installing the "stringr" package allows for manipulate characters, use whitespace, and match patterns between function. I also install the "readr" package that allows us to read rectangular data (i.e. CSV and TSV) from delimited files, and the "ggplot2" package allows us to produce statistical data and graphics.
+
+THere are also additional packages I need to doanload for readibility; the "curl" package provides bindings to the libcurl C library, while "tidyverse" package allows our data and graphs to be presented in a more presentable fashion.
+
+```{r libs}
+library(tidyverse)
+library(stringr)
+library(readr)
+library(ggplot2)
+library(curl)
+```
+
+### Step 2 - Raw data filtration
+First, I place the election result data from the website into object uk_csv. I place the read data from the website and removing column names from the previous object into a new object, uk_raw.I then replace all unreadable data with \\s+ with readable underscores, I recheck all data using 'print' before moving on.
+
+```{r, setup govt}
+uk_csv <- "https://electionresults.parliament.uk/general-elections/6/candidacies.csv"
+uk_raw <- readr::read_csv(uk_csv, show_col_types = FALSE)
+names(uk_raw) <- names(uk_raw) %>% tolower() %>% str_replace_all("\\s+", "_")
+print(uk_csv)
+print(uk_raw)
+```
+
+### Step 3 - Refine data to only elections
+Now that I have the relevant object, I then filter the column of `election_is_by-election`, then I select certain columns relating only to constituency, country, valid votes and electorate. Then, rename these columns.
+
+```{r, setup govtuk filter}
+uk1 <- uk_raw %>%
+  filter(!`election_is_by-election`)
+head(uk1)
+
+uk2 <- uk1 %>%
+  select(
+    constituency = constituency_name,
+    country      = country_name,
+    valid_votes  = candidate_vote_count,
+    electorate   = electorate
+  )
+head(uk2)
+```
+
+
+### Step 4 — Calculate turnout percentages 
+I create a new data frame, grouping all constituncies data by their respective countries, and remove all missing data. Using the mutate function, I calculate the percentage of turnout registered, by dividing the data of valid votes over electorates. I then take a summarized glimpse into the the new data set.
+
+```{r}
+uk3 <- uk2 %>%
+  group_by(country, constituency) %>%
+  summarise(
+    valid_votes = sum(valid_votes, na.rm = TRUE),
+    electorate  = max(electorate, na.rm = TRUE),
+    .groups = "drop"
+  )
+uk3
+uk <- uk3 %>%
+  mutate(turnout_registered = 100 * valid_votes / electorate) %>%
+  filter(is.finite(turnout_registered), electorate > 0)
+glimpse(uk)
+```
+
+Now we have a list of constituencies with their turnout rates, we look up the top and bottom turnout constituencies. These two lines of code look quite similar; this is the function uk %>% doing its work, the function to mutate.
+
+### Step 5 — Data Wrangling, Organisation and pattern Recognition
+Sort out the constituencies with the highest turnouts registered, and the lowest, into objects. 
+
+For the 10 highest-turnout places, all electorates seem to come from England and have an average voter turnout of 72%; Harpenden and Berkhamsted being the highest. 
+
+For the 10 lowest-turnout places, the have an average voter turnout is around 40 to 43.
+
+For the 25 highest-turnout places, with a larger range of data, the average voter turnout is around 70 to 75%.
+
+For the 25 lowest-turnout places, the average voter turnout is around 39 to 47%.
+
+For the low-turnout polities, I noticed that only half of the valid population voted. On the other hand, third-quarter of the population voted in the polities with the highest turnout rates. The conclusion seems to be that a greater sample and range allows for a greater range and mode.
+
+
+```{r}
+top10 <- uk %>% arrange(desc(turnout_registered)) %>% slice_head(n = 10)
+bottom10 <- uk %>% arrange(turnout_registered) %>% slice_head(n = 10)
+print(top10)
+print(bottom10)
+
+
+top25 <- uk %>% arrange(desc(turnout_registered)) %>% slice_head(n = 25)
+bottom25 <- uk %>% arrange(turnout_registered) %>% slice_head(n = 25)
+print(top25)
+print(bottom25)
+```
+
+
+### Step 6 - Investigate Turnout 
+We now print out the turnoutrat by Constituent Countries of the UK. 'n' indicates the number of sample constituencies from each country (e.g. there are 543 sample constituncies from England). It is important to know the number of samples in a country to ensure the workings behind the mean and median turnout. I then create country summary (mean, median, n), ordered by mean turnout, and compile it into an object.
+
+```{r}
+turnout_by_country <- uk %>%
+  group_by(country) %>%
+  summarise(
+    mean_turnout   = mean(turnout_registered, na.rm = TRUE),
+    median_turnout = median(turnout_registered, na.rm = TRUE),
+    n              = n(),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(mean_turnout))
+print(turnout_by_country)
+```
+
+
+### Step 7 - Visualisation of Findings
+Using ggplot, I finally visualize the findings on turnout on each country. England shows the highest median turnout. One plausible reason for this is its large sample size of 543 constituencies ...and hence a greater chance of finding a high turnout rate.
+
+I added three changes to the visualization in order to improve it. I changed the bar width from 0.7 to 0.95, to improve visibility of the compatibility between the countries' turnout. I changed the expansion multiplier from c(0, 0.05) to c(-0.5, -0.35),  I added geom_text to add the turnout (y-value) of each country, so it magnifies the margin of difference between the turnout percentage between the y values of 50 and 65.
+
+There were two failed approaches. I tried to change the geom_col into geom_line and geom_bar, but neither were interesting enough to look at. I tried to change the geom_col into geom_point, but there was not enough data and looked too simple. And stupid. 
+
+### Improved Framework
+```{r}
+ggplot(turnout_by_country, aes(country, mean_turnout, colours)) +
+  geom_col(width = 0.95, fill = "#59c7d4") +  # bar = mean turnout
+  geom_text(aes(label = signif(mean_turnout, digits = 3)), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.75, color = "black", size = 4) +
+  scale_y_continuous(limits = c(0, 100),
+                     expand = expansion(mult = c(-0.5, -0.35))) +
+  labs(
+    title = "UK 2024 General Election: Mean Turnout by Country",
+    x = "Country",
+    y = "Turnout (% of registered voters)"
+  ) +
+  theme_minimal()
+```

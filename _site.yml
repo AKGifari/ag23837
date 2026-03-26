@@ -1,5 +1,5 @@
 name: "Akmal Gifari"
-title: "GV300 Website"
+title: "Akmal Gifari"
 theme: postcards.css
 description: |
   mfeo  
@@ -8,9 +8,9 @@ navbar:
   left:
   - text: "Home"
     href: index.html
-  - text: "About"
-    href: about.html
   right:
+  - text: "UKGovt"
+    href: blog1.html
   - text: "KidIQ"
     href: blog.html
 output: distill::distill_article

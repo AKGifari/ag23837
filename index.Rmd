@@ -11,7 +11,14 @@ output:
   postcards::trestles
 ---
  
-Welcome! In this website I show my previous projects in quantitative analysis in the University of Essex, specifically in the module GV300. 
+#### Welcome! 
+
+In this website I show my previous projects in quantitative analysis in the University of Essex, specifically in the module GV300. 
+
+#### About Akmal
+
+Akmal is a student of international relations and politics who has started a journey in geopolitics and international economics, and recently, political and social data science. Akmal has a history of extracurricular and volunteer activities, and I have learnt many transferable skills, including teamwork and discipline, that can be utilised in the workplace.
+
+Outside of university and work, Akmal likes Star Wars and character illustration.
 
 For more information, contact me via email, which are available in my LinkedIn and GitHub pages.
-
