@@ -89,29 +89,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>GV300 Website: About Akmal</title>
+  <title>GV300 Website: KidIQ</title>
 
-  <meta property="description" itemprop="description" content="Akmal is a student of international relations and politics who has started a journey in geopolitics and international economics, and recently, political and social data science. Akmal has a history of extracurricular and volunteer activities, and I have learnt many transferable skills, including teamwork and discipline, that can be utilised in the workplace.&#10;Outside of university and work, Akmal likes Star Wars and character illustration."/>
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="GV300 Website: About Akmal"/>
+  <meta property="og:title" content="GV300 Website: KidIQ"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Akmal is a student of international relations and politics who has started a journey in geopolitics and international economics, and recently, political and social data science. Akmal has a history of extracurricular and volunteer activities, and I have learnt many transferable skills, including teamwork and discipline, that can be utilised in the workplace.&#10;Outside of university and work, Akmal likes Star Wars and character illustration."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="GV300 Website"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="GV300 Website: About Akmal"/>
-  <meta property="twitter:description" content="Akmal is a student of international relations and politics who has started a journey in geopolitics and international economics, and recently, political and social data science. Akmal has a history of extracurricular and volunteer activities, and I have learnt many transferable skills, including teamwork and discipline, that can be utilised in the workplace.&#10;Outside of university and work, Akmal likes Star Wars and character illustration."/>
+  <meta property="twitter:title" content="GV300 Website: KidIQ"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["About Akmal"]},{"type":"character","attributes":{},"value":["Akmal is a student of international relations and politics who has started a journey in geopolitics and international economics, and recently, political and social data science. Akmal has a history of extracurricular and volunteer activities, and I have learnt many transferable skills, including teamwork and discipline, that can be utilised in the workplace.\nOutside of university and work, Akmal likes Star Wars and character illustration."]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["KidIQ"]},{"type":"character","attributes":{},"value":["distill::distill_article"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2430,7 +2427,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"About Akmal","description":"Akmal is a student of international relations and politics who has started a journey in geopolitics and international economics, and recently, political and social data science. Akmal has a history of extracurricular and volunteer activities, and I have learnt many transferable skills, including teamwork and discipline, that can be utilised in the workplace.\nOutside of university and work, Akmal likes Star Wars and character illustration.","authors":[]}
+{"title":"KidIQ","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2454,16 +2451,102 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>About Akmal</h1>
+<h1>KidIQ</h1>
 
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Akmal is a student of international relations and politics who has started a journey in geopolitics and international economics, and recently, political and social data science. Akmal has a history of extracurricular and volunteer activities, and I have learnt many transferable skills, including teamwork and discipline, that can be utilised in the workplace.
-Outside of university and work, Akmal likes Star Wars and character illustration.</p></p>
+
 </div>
 
 
 <div class="d-article">
+<p>By: Akmal G
+Date: November 4th, 2025</p>
+<p>For one of my first works while learning from the University of Essex, I created a visualization that shows how a mother’s education, IQ and work status combined to influence children’ test scores. The visualization revealed a number of patterns of advantages and disadvantages across different family backgrounds.</p>
+<p>The kidiq data stems from the National Longitudinal Survey of Youth and is used in Gelman and Hill (2007). The data set contains 434 observations measured on five variables, and is obtained from https: //github.com/jknowles/BDAexampleR.data</p>
+<p>I used the packages tidyverse, stringr, readr, ggplot2 and curl.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>knitr</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/knitr/man/opts_chunk.html'>opts_chunk</a></span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span>echo <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://stringr.tidyverse.org'>stringr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readr.tidyverse.org'>readr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://jeroen.r-universe.dev/curl'>curl</a></span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>My approach was to create categories that combine mother’s education and work status. Then, I processed child outcomes vary across these combined categories.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># Download and mutate data</span></span>
+<span><span class='va'>kidiq.raw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"kidiq-2.csv"</span>, show_col_types <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span><span class='va'>kidiq</span> <span class='op'>&lt;-</span> <span class='va'>kidiq.raw</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>  </span>
+<span><span class='co'># Create work status labels</span></span>
+<span>work_status <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case-and-replace-when.html'>case_when</a></span><span class='op'>(</span></span>
+<span><span class='va'>mom_work</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>~</span> <span class='st'>"Not working"</span>,</span>
+<span><span class='va'>mom_work</span> <span class='op'>==</span> <span class='fl'>2</span> <span class='op'>~</span> <span class='st'>"Part-time"</span>,</span>
+<span><span class='va'>mom_work</span> <span class='op'>==</span> <span class='fl'>3</span> <span class='op'>~</span> <span class='st'>"Full-time"</span>,</span>
+<span><span class='va'>mom_work</span> <span class='op'>==</span> <span class='fl'>4</span> <span class='op'>~</span> <span class='st'>"Full-time+"</span></span>
+<span><span class='op'>)</span>,</span>
+<span><span class='co'># Create highschool diploma success groups</span></span>
+<span>highschool_diploma <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case-and-replace-when.html'>case_when</a></span><span class='op'>(</span></span>
+<span><span class='va'>mom_hs</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"High School Diploma"</span>,</span>
+<span><span class='va'>mom_hs</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>~</span> <span class='st'>"No High School Diploma"</span>,</span>
+<span><span class='op'>)</span>,</span>
+<span><span class='co'># Create combined advantage categories</span></span>
+<span>family_advantage <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case-and-replace-when.html'>case_when</a></span><span class='op'>(</span></span>
+<span><span class='va'>mom_hs</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>mom_work</span> <span class='op'>&lt;=</span> <span class='fl'>2</span> <span class='op'>~</span> <span class='st'>"Low"</span>,</span>
+<span><span class='va'>mom_hs</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>&amp;</span> <span class='va'>mom_work</span> <span class='op'>&gt;</span> <span class='fl'>2</span> <span class='op'>~</span> <span class='st'>"Mixed"</span>,</span>
+<span><span class='va'>mom_hs</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>mom_work</span> <span class='op'>&lt;=</span> <span class='fl'>2</span> <span class='op'>~</span> <span class='st'>"Mixed"</span>,</span>
+<span><span class='va'>mom_hs</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>&amp;</span> <span class='va'>mom_work</span> <span class='op'>&gt;</span> <span class='fl'>2</span> <span class='op'>~</span> <span class='st'>"High"</span>,</span>
+<span><span class='op'>)</span>,</span>
+<span><span class='co'># Create age groups</span></span>
+<span>age_group <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case-and-replace-when.html'>case_when</a></span><span class='op'>(</span></span>
+<span><span class='va'>mom_age</span> <span class='op'>&gt;=</span> <span class='fl'>17</span> <span class='op'>&amp;</span> <span class='va'>mom_age</span> <span class='op'>&lt;=</span> <span class='fl'>20</span> <span class='op'>~</span> <span class='st'>"Ages 17-20"</span>,</span>
+<span><span class='va'>mom_age</span> <span class='op'>&gt;=</span> <span class='fl'>21</span> <span class='op'>&amp;</span> <span class='va'>mom_age</span> <span class='op'>&lt;=</span> <span class='fl'>23</span> <span class='op'>~</span> <span class='st'>"Ages 21-23"</span>,</span>
+<span><span class='va'>mom_age</span> <span class='op'>&gt;=</span> <span class='fl'>24</span> <span class='op'>&amp;</span> <span class='va'>mom_age</span> <span class='op'>&lt;=</span> <span class='fl'>26</span> <span class='op'>~</span> <span class='st'>"Ages 24-26"</span>,</span>
+<span><span class='va'>mom_age</span> <span class='op'>&gt;=</span> <span class='fl'>27</span> <span class='op'>&amp;</span> <span class='va'>mom_age</span> <span class='op'>&lt;=</span> <span class='fl'>29</span> <span class='op'>~</span> <span class='st'>"Ages 27-29"</span></span>
+<span><span class='op'>)</span>,</span>
+<span><span class='co'># Create IQ terciles for grouping</span></span>
+<span>iq_group <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case-and-replace-when.html'>case_when</a></span><span class='op'>(</span></span>
+<span><span class='va'>mom_iq</span> <span class='op'>&lt;=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>mom_iq</span>, <span class='fl'>0.33</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>~</span> <span class='st'>"Lower IQ"</span>,</span>
+<span><span class='va'>mom_iq</span> <span class='op'>&lt;=</span> <span class='fu'><a href='https://rdrr.io/r/stats/quantile.html'>quantile</a></span><span class='op'>(</span><span class='va'>mom_iq</span>, <span class='fl'>0.67</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>~</span> <span class='st'>"Middle IQ"</span>,</span>
+<span><span class='cn'>TRUE</span> <span class='op'>~</span> <span class='st'>"Higher IQ"</span></span>
+<span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>kidiq</span><span class='op'>$</span><span class='va'>age_group</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>kidiq</span><span class='op'>$</span><span class='va'>age_group</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span><span class='st'>"Ages 17-20"</span>,<span class='st'>"Ages 21-23"</span>, <span class='st'>"Ages 24-26"</span>,<span class='st'>"Ages 27-29"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>kidiq</span><span class='op'>$</span><span class='va'>iq_group</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>kidiq</span><span class='op'>$</span><span class='va'>iq_group</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span><span class='st'>"Lower IQ"</span>, <span class='st'>"Middle IQ"</span>, <span class='st'>"Higher IQ"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>kidiq</span><span class='op'>$</span><span class='va'>work_status</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>kidiq</span><span class='op'>$</span><span class='va'>work_status</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span><span class='st'>"Not working"</span>, <span class='st'>"Part-time"</span>, <span class='st'>"Full-time"</span>,<span class='st'>"Full-time+"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>kidiq</span><span class='op'>$</span><span class='va'>family_advantage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>kidiq</span><span class='op'>$</span><span class='va'>family_advantage</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span><span class='st'>"Low"</span>, <span class='st'>"Mixed"</span>, <span class='st'>"High"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>kidiq</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>kidiq</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>To indicate different effects on IQ, I added additional dimensions using different colors, size, and faceting to differentiate. In the end, I was able to tell a story about social mobility and opportunity through a readable violin plot.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>k1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>kidiq</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>family_advantage</span>, y <span class='op'>=</span> <span class='va'>kid_score</span>, color <span class='op'>=</span> <span class='va'>age_group</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_violin.html'>geom_violin</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>age_group</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_brewer.html'>scale_color_brewer</a></span><span class='op'>(</span>palette <span class='op'>=</span> <span class='st'>"RdPu"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>title <span class='op'>=</span> <span class='st'>"Family Ties? Does a mother’s educational and employment</span></span>
+<span><span class='st'>background affect their child's performance"</span>,</span>
+<span>subtitle <span class='op'>=</span> <span class='st'>"Correlation between family advantage with child's"</span>,</span>
+<span>x <span class='op'>=</span> <span class='st'>"Mother's Household Advantage"</span>,</span>
+<span>y <span class='op'>=</span> <span class='st'>"Child's Test Score"</span>,</span>
+<span>caption <span class='op'>=</span> <span class='st'>"Data: Test scores and mother's characteristics"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>k1</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="blog_files/figure-html5/create%20violin-1.png" alt="" width="624" /></p>
+</div>
+<p>The correlation between a mother’s educational and employment background, collectively known as Family Advantage, and the academic performance of their children is shown across several age groups. Most data seems to be sporadic,with notable exceptions being unemployed and full-time working mothers in the age range 24-26, and unemployed mothers in their late teens, having children who reached the mode performance scores.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

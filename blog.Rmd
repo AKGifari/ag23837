@@ -1,12 +1,12 @@
 ---
-title: "Kid IQ"
-listing: _posts/
+title: "KidIQ"
+output: distill::distill_article
 ---
 
 By: Akmal G
 Date: November 4th, 2025
 
-For one of my first works while learning from the University of Essex, I created a visualization that shows how a mother's education, IQ and work status combined to influence childrens' test scores. The visualization revealed a number of patterns of advantages and disadvantages across different family backgrounds.
+For one of my first works while learning from the University of Essex, I created a visualization that shows how a mother's education, IQ and work status combined to influence children' test scores. The visualization revealed a number of patterns of advantages and disadvantages across different family backgrounds.
 
 The kidiq data stems from the National Longitudinal Survey of Youth and is used in Gelman and Hill (2007). The data set contains 434 observations measured on five variables, and is obtained from https: //github.com/jknowles/BDAexampleR.data
 
