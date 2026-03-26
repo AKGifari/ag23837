@@ -5,12 +5,9 @@ description: |
   mfeo  
 output_dir: "docs"
 navbar:
-  left:
-  - text: "Home"
-    href: index.html
   right:
-  - text: "UKGovt"
+  - text: "UK Gov't"
     href: blog1.html
-  - text: "KidIQ"
+  - text: "Kid IQ"
     href: blog.html
 output: distill::distill_article

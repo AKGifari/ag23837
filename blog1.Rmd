@@ -7,7 +7,7 @@ By: Akmal G on November 4th, 2025
 
 For this project, I created a visualization that shows how electoral turnouts differ between the UK, Scotland, Ireland and Wales, from a very complicated dataset.
 
-### Step 1 Load Packages
+### Step 1 - Load Packages
 Firstly, I download several packages. Installing the "stringr" package allows for manipulate characters, use whitespace, and match patterns between function. I also install the "readr" package that allows us to read rectangular data (i.e. CSV and TSV) from delimited files, and the "ggplot2" package allows us to produce statistical data and graphics.
 
 THere are also additional packages I need to doanload for readibility; the "curl" package provides bindings to the libcurl C library, while "tidyverse" package allows our data and graphs to be presented in a more presentable fashion.

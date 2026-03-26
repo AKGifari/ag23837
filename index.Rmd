@@ -13,7 +13,7 @@ output:
  
 #### Welcome! 
 
-In this website I show my previous projects in quantitative analysis in the University of Essex, specifically in the module GV300. 
+In this website I show my previous projects in quantitative analysis in the University of Essex, specifically in the module GV300. Simply click on the titles on the top right corner of the navigation bar to see what projects I have done!
 
 #### About Akmal
 
