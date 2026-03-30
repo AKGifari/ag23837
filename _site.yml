@@ -10,4 +10,6 @@ navbar:
     href: blog1.html
   - text: "Kid IQ"
     href: blog.html
+  - text: "US Banks"
+    href: blog2.html
 output: distill::distill_article

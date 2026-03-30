@@ -1,0 +1,491 @@
+---
+title: 'Elements of Textual Data Part 2: Dictionaries'
+author: 'Akmal Gifari'
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    theme: cosmo
+    highlight: tango
+    df_print: paged
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Dictionary Approaches to Text
+
+## Applying dictionaries to FOMC policy statements 
+
+In this project, I looked at the use of uncertainty language as well as output and inflation topics in a subsection of Federal Open Market Committee (FOMC) statements made by the U.S. central bank.  
+
+Because the file names actually have the date of the meeting, we are going to collect the filenames in an object.
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+library(quanteda)
+library(readtext)
+require(ggplot2)
+filenames <- list.files("FOMC", "\\.txt$") # Import data
+```
+
+Extracting FOMCs from a list of files, I then read these texts using str. I then turn their texts into a corpus.
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+txts <-  readtext(paste0("FOMC",  "/", "*.txt"))[]
+str(txts)
+substring(texts(txts)["2005_02_1.txt"], 1, 150)
+
+txtCorpus <- corpus(txts)
+head(summary(txtCorpus))
+```
+
+Then we might want to add in doc-level meta-info (Note that this was disabled in the current version [(4.0.2](https://quanteda.io/news/news-3.0.html?q=metadoc#removals)
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+#metadoc(txtCorpus, "language") <- "english"
+#metadoc(txtCorpus, "owner") <- "Akmal Gifari"
+#metadoc(txtCorpus, "docsource")  <- paste("txts", 1:ndoc(txtCorpus))
+#head(summary(txtCorpus, showmeta = TRUE))
+```
+
+
+### Key Words in Context
+
+To make sure that the statement has information about the economy and uncertainty, we might want to check using our KWIC command for the word 'might'. 
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+#key-words in context
+options(width = 30)
+might <- kwic(tokens(txtCorpus), "might")
+head(might)
+```
+
+### DFM
+
+We then tokenize this text, using the functions tokens and dfm. 
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+tokensFromCorp <- tokens(txtCorpus) 
+dfmCorp <- dfm(tokensFromCorp)
+topfeatures(dfmCorp, 20)
+```
+
+### Making a Dictionary 
+
+In order to show how to apply a dictionary, we import a dictionary which is already a list. In this case, we will use the uncertainty dictionary from the finance literature. We use this matrix to compare and contrast the frequency of specific and vague key terms. 
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+test_dict <- dictionary(list(
+  specific = c("clear*", "certain*", "unequi*"),
+  vague = c("probably", "uncert*", "might", "could")))
+precision <- dfm_lookup(dfmCorp, dictionary = test_dict)
+tail(precision)
+```
+
+We repeat the same thing for key terms of topics regarding consumer inflation, output and producer inflation.
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+test_dict2 <- dictionary(list(
+  consumerinflation = c("inflation", "price", "cost", "housing"), 
+  output = c("growth", "gap", "employment", "output gap"), 
+  producerinflation = c("oil", "trucks", "tarrif")))
+topics <- dfm_lookup(dfmCorp, dictionary = test_dict2)
+head(topics)
+tail(topics)
+```
+
+I implement this once more; using a dictionary list of positive, negative and neutral public sentiment, with similar word connotations.
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+test_sentiment <- dictionary(list(positive = c("agree", "yes", "happy"), negative = c("sad", "disagree", "no"), neutral = c("ambiguous", "maybe", "content")))
+sentiment <- dfm_lookup(dfmCorp, dictionary = test_sentiment)
+sentiment
+head(sentiment)
+```
+
+I then turn our dictionary into a dictionary object, which will make the dfm using only the terms that appear in the dictionary. We build a new list of uncertainty words that start with the letter a and call this a `A uncertainty dictionary'. 
+
+### 'A' Uncertainty Dictionary 
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+#read in dictionary - would need files of type YOSHIKODER
+Uncertaintydict <- dictionary(list(uncertainty = c("abeyance",
+"abeyances",
+"almost",
+"alteration",
+"alterations",
+"ambiguities",
+"ambiguity",
+"ambiguous",
+"anomalies",
+"anomalous",
+"anomalously",
+"anomaly",
+"anticipate",
+"anticipated",
+"anticipates",
+"anticipating",
+"anticipation",
+"anticipations",
+"apparent",
+"apparently",
+"appear",
+"appeared",
+"appearing",
+"appears",
+"approximate",
+"approximated",
+"approximately",
+"approximates",
+"approximating",
+"approximation",
+"approximations",
+"arbitrarily",
+"arbitrariness",
+"arbitrary",
+"assume",
+"assumed",
+"assumes",
+"assuming",
+"assumption",
+"assumptions"),
+inflation = c("inflation", "price", "cost", "oil", "housing"), output = c("growth", "gap", "employment")))
+```
+
+```{r, echo=FALSE, message = FALSE, error = FALSE, warning = FALSE}
+uncertainty <- dfm_lookup(dfmCorp, dictionary = Uncertaintydict) 
+head(uncertainty)
+```
+### Longer Dictionary 
+We can also use a longer dictionary which includes even more words;
+
+```{r echo=TRUE, error=FALSE, message=FALSE, warning=FALSE}
+UncertaintydictL <- dictionary(list(uncertainty =  c("vague", "vaguely",
+	"vagueness",
+	"vaguenesses",
+	"vaguer",
+	"vaguest",
+	"unforecasted",
+	"unforseen",
+	"unpredicted",
+	"unquantifiable",
+	"unquantified",
+	"unreconciled",
+	"abeyance",
+	"abeyances",
+	"almost",
+	"alteration",
+	"alterations",
+	"ambiguities",
+	"ambiguity",
+	"ambiguous",
+	"anomalies",
+	"anomalous",
+	"anomalously",
+	"anomaly",
+	"anticipate",
+	"anticipated",
+	"anticipates",
+	"anticipating",
+	"anticipation",
+	"anticipations",
+	"apparent",
+	"apparently",
+	"appear",
+	"appeared",
+	"appearing",
+	"appears",
+	"approximate",
+	"approximated",
+	"approximately",
+	"approximates",
+	"approximating",
+	"approximation",
+	"approximations",
+	"arbitrarily",
+	"arbitrariness",
+	"arbitrary",
+	"assume",
+	"assumed",
+	"assumes",
+	"assuming",
+	"assumption",
+	"assumptions",
+	"believe",
+	"believed",
+	"believes",
+	"believing",
+	"cautious",
+	"cautiously",
+	"cautiousness",
+	"clarification",
+	"clarifications",
+	"conceivable",
+	"conceivably",
+	"conditional",
+	"conditionally",
+	"confuses",
+	"confusing",
+	"confusingly",
+	"confusion",
+	"contingencies",
+	"contingency",
+	"contingent",
+	"contingently",
+	"contingents",
+	"could",
+	"crossroad",
+	"crossroads",
+	"depend",
+	"depended",
+	"dependence",
+	"dependencies",
+	"dependency",
+	"dependent",
+	"depending",
+	"depends",
+	"destabilizing",
+	"deviate",
+	"deviated",
+	"deviates",
+	"deviating",
+	"deviation",
+	"deviations",
+	"differ",
+	"differed",
+	"differing",
+	"differs",
+	"doubt",
+	"doubted",
+	"doubtful",
+	"doubts",
+	"exposure",
+	"exposures",
+	"fluctuate",
+	"fluctuated",
+	"fluctuates",
+	"fluctuating",
+	"fluctuation",
+	"fluctuations",
+	"hidden",
+	"hinges",
+	"imprecise",
+	"imprecision",
+	"imprecisions",
+	"improbability",
+	"improbable",
+	"incompleteness",
+	"indefinite",
+	"indefinitely",
+	"indefiniteness",
+	"indeterminable",
+	"indeterminate",
+	"inexactv",
+	"inexactness",
+	"instabilities",
+	"instability",
+	"intangible",
+	"intangibles",
+	"likelihood",
+	"may",
+	"maybe",
+	"might",
+	"nearly",
+	"nonassessable",
+	"occasionally",
+	"ordinarily",
+	"pending",
+	"perhaps",
+	"possibilities",
+	"possibility",
+	"possible",
+	"possibly",
+	"precaution",
+	"precautionary",
+	"precautions",
+	"predict",
+	"predictability",
+	"predicted",
+	"predicting",
+	"prediction",
+	"predictions",
+	"predictive",
+	"predictor",
+	"predictors",
+	"predicts",
+	"preliminarily",
+	"preliminary",
+	"presumably",
+	"presume",
+	"presumed",
+	"presumes",
+	"presuming",
+	"presumption",
+	"presumptions",
+	"probabilistic",
+	"probabilities",
+	"probability",
+	"probable",
+	"probably",
+	"random",
+	"randomize",
+	"randomized",
+	"randomizes",
+	"randomizing",
+	"randomly",
+	"randomness",
+	"reassess",
+	"reassessed",
+	"reassesses",
+	"reassessing",
+	"reassessment",
+	"reassessments",
+	"recalculate",
+	"recalculated",
+	"recalculates",
+	"recalculating",
+	"recalculation",
+	"recalculations",
+	"reconsider",
+	"reconsidered",
+	"reconsidering",
+	"reconsiders",
+	"reexamination",
+	"reexamine",
+	"reexamining",
+	"reinterpret",
+	"reinterpretation",
+	"reinterpretations",
+	"reinterpreted",
+	"reinterpreting",
+	"reinterprets",
+	"revise",
+	"revised",
+	"risk",
+	"risked",
+	"riskier",
+	"riskiest",
+	"riskiness",
+	"risking",
+	"risks",
+	"risky",
+	"roughly",
+	"rumors",
+	"seems",
+	"seldom",
+	"seldomly",
+	"sometime",
+	"sometimes",
+	"somewhat",
+	"somewhere",
+	"speculate",
+	"speculated",
+	"speculates",
+	"speculating",
+	"speculation",
+	"speculations",
+	"speculative",
+	"speculatively",
+	"sporadic",
+	"sporadically",
+	"sudden",
+	"suddenly",
+	"suggest",
+	"suggested",
+	"suggesting",
+	"suggests",
+	"susceptibility",
+	"tending",
+	"tentative",
+	"tentatively",
+	"turbulence",
+	"uncertain",
+	"uncertainly",
+	"uncertainties",
+	"uncertainty",
+	"unclear",
+	"unconfirmed",
+	"undecided",
+	"undefined",
+	"undesignated",
+	"undetectable",
+	"undeterminable",
+	"undetermined",
+	"undocumented",
+	"unexpected",
+	"unexpectedly",
+	"unfamiliar",
+	"unfamiliarity",
+	"unguaranteed",
+	"unhedged",
+	"unidentifiable",
+	"unidentified",
+	"unknown",
+	"unknowns",
+	"unobservable",
+	"unplanned",
+	"unpredictability",
+	"unpredictable",
+	"unpredictably",
+	"unproved",
+	"unproven",
+	"unseasonable",
+	"unseasonably",
+	"unsettled",
+	"unspecific",
+	"unspecified",
+	"untested",
+	"unusual",
+	"unusually",
+	"unwritten",
+	"vagaries",
+	"variability",
+	"variable",
+	"variables",
+	"variably",
+	"variance",
+	"variances",
+	"variant",
+	"variants",
+	"variation",
+	"variations",
+	"varied",
+	"varies",
+	"vary",
+	"varying",
+	"volatile",
+	"volatilities",
+	"volatility")))
+```
+
+We then create a dfm value to measure the level of uncertainty for these words.
+
+```{r, echo=FALSE, message = FALSE, error = FALSE, warning = FALSE}
+uncertainty2 <- dfm_lookup(dfmCorp, dictionary = UncertaintydictL) 
+head(uncertainty2)
+```
+I can also use this dictionary function to indicate how many times other European coutnries have appeared in the document. This may prove useful in, for example, deducing any messages regarding Euro-skepticism and Euro-centrism in more recent manifestos, or perhaps whether the manifesto had an emphasis on foreign policy.
+
+```{r, echo=FALSE, message = FALSE, error = FALSE, warning = FALSE}
+foreignpoldict <- dictionary(list(foreignallies = c("alli*", 
+"abroad",
+"americ*", 
+"eu",
+"europ*",
+"military",
+"france",
+"french",
+"german*",
+"greece", 
+"greek",
+"nato")))
+```
+
+I then repeat the process for dfm.
+
+```{r, echo=FALSE, message = FALSE, error = FALSE, warning = FALSE}
+foreignpol_dfm <- dfm_lookup(dfmCorp, dictionary = foreignpoldict, 
+                         valuetype = "fixed", case_insensitive = TRUE) 
+head(foreignpol_dfm)
+tail(foreignpol_dfm)
+```
+

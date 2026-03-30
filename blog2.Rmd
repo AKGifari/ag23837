@@ -1,0 +1,198 @@
+---
+title: "Sentiment Analysis of FOMC Bank Statements"
+output: distill::distill_article
+---
+
+By: Akmal G on March 26th, 2026
+
+In this project, I looked at the use of uncertainty language as well as output and inflation topics in a subsection of Federal Open Market Committee (FOMC) statements made by the U.S. central bank. At the end, I also create an additional investigation on the role of energy in the wording of these statements and its confidence.
+
+## Applying dictionaries to FOMC policy statements 
+
+Because the file names actually have the date of the meeting, we are going to collect the filenames in an object.
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+library(quanteda)
+library(readtext)
+require(ggplot2)
+filenames <- list.files("FOMC", "\\.txt$") # Import data
+```
+
+Extracting FOMCs from a list of files, I then read these texts using str. I then turn their texts into a corpus.
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+txts <-  readtext(paste0("FOMC",  "/", "*.txt"))[]
+str(txts)
+substring(texts(txts)["2005_02_1.txt"], 1, 150)
+
+txtCorpus <- corpus(txts)
+head(summary(txtCorpus))
+```
+
+Then we might want to add in doc-level meta-info (Note that this was disabled in the current version [(4.0.2](https://quanteda.io/news/news-3.0.html?q=metadoc#removals)
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+#metadoc(txtCorpus, "language") <- "english"
+#metadoc(txtCorpus, "owner") <- "Akmal Gifari"
+#metadoc(txtCorpus, "docsource")  <- paste("txts", 1:ndoc(txtCorpus))
+#head(summary(txtCorpus, showmeta = TRUE))
+```
+
+
+### Key Words in Context
+
+To make sure that the statement has information about the economy and uncertainty, we might want to check using our KWIC command for the word 'might'. 
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+#key-words in context
+options(width = 30)
+might <- kwic(tokens(txtCorpus), "might")
+head(might)
+```
+
+### DFM
+
+We then tokenize this text, using the functions tokens and dfm. 
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+tokensFromCorp <- tokens(txtCorpus) 
+dfmCorp <- dfm(tokensFromCorp)
+topfeatures(dfmCorp, 20)
+```
+
+### Making a Dictionary 
+
+In order to show how to apply a dictionary, we import a dictionary which is already a list. In this case, we will use the uncertainty dictionary from the finance literature. We use this matrix to compare and contrast the frequency of specific and vague key terms. 
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+test_dict <- dictionary(list(
+  specific = c("clear*", "certain*", "unequi*"),
+  vague = c("probably", "uncert*", "might", "could")))
+precision <- dfm_lookup(dfmCorp, dictionary = test_dict)
+tail(precision)
+```
+
+We repeat the same thing for key terms of topics regarding consumer inflation, output and producer inflation.
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+test_dict2 <- dictionary(list(
+  consumerinflation = c("inflation", "price", "cost", "housing"), 
+  output = c("growth", "gap", "employment", "output gap"), 
+  producerinflation = c("oil", "trucks", "tarrif")))
+topics <- dfm_lookup(dfmCorp, dictionary = test_dict2)
+head(topics)
+tail(topics)
+```
+
+I implement this once more; using a dictionary list of positive, negative and neutral public sentiment, with similar word connotations.
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+test_sentiment <- dictionary(list(positive = c("agree", "yes", "happy"), negative = c("sad", "disagree", "no"), neutral = c("ambiguous", "maybe", "content")))
+sentiment <- dfm_lookup(dfmCorp, dictionary = test_sentiment)
+sentiment
+head(sentiment)
+```
+
+I then turn our dictionary into a dictionary object, which will make the dfm using only the terms that appear in the dictionary. We build a new list of uncertainty words that start with the letter a and call this a `A uncertainty dictionary'. 
+
+### 'A' Uncertainty Dictionary 
+
+```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
+#read in dictionary - would need files of type YOSHIKODER
+Uncertaintydict <- dictionary(list(uncertainty = c("abeyance",
+"abeyances",
+"almost",
+"alteration",
+"alterations",
+"ambiguities",
+"ambiguity",
+"ambiguous",
+"anomalies",
+"anomalous",
+"anomalously",
+"anomaly",
+"anticipate",
+"anticipated",
+"anticipates",
+"anticipating",
+"anticipation",
+"anticipations",
+"apparent",
+"apparently",
+"appear",
+"appeared",
+"appearing",
+"appears",
+"approximate",
+"approximated",
+"approximately",
+"approximates",
+"approximating",
+"approximation",
+"approximations",
+"arbitrarily",
+"arbitrariness",
+"arbitrary",
+"assume",
+"assumed",
+"assumes",
+"assuming",
+"assumption",
+"assumptions"),
+inflation = c("inflation", "price", "cost", "oil", "housing"), output = c("growth", "gap", "employment")))
+```
+
+```{r, echo=FALSE, message = FALSE, error = FALSE, warning = FALSE}
+uncertainty <- dfm_lookup(dfmCorp, dictionary = Uncertaintydict) 
+head(uncertainty)
+```
+
+### Food for Thought: The Role of Energy 
+
+For an additional investigation, I substituted the above function of the dictionary for uncertain words, with one related to energy. I would like to investigate the effect of energy prices on the central banks' statements.
+
+```{r, echo=FALSE, message = FALSE, error = FALSE, warning = FALSE}
+energyeffect <- dictionary(list(energy = c("energy"),
+  consumerinflation = c("inflation", "price", "cost", "housing"), 
+  vague = c("probably", "uncert*", "might", "could")))
+```
+
+I then repeat the process for dfm.
+
+```{r effect of energy}
+energyeffectdfm <- dfm_lookup(dfmCorp, dictionary = energyeffect, 
+                         valuetype = "glob", case_insensitive = TRUE) 
+head(energyeffectdfm)
+tail(energyeffectdfm)
+```
+
+In addition, I visualize this using ggplot and tidyverse. First I turn it into a data frame and mutate the data using the '%>%' function, summarising them all using pivot longer.
+
+```{r mutate}
+library(tidyverse)
+dfm_counts_all <- convert(energyeffectdfm, to = "data.frame") %>%
+  mutate(year = substr(doc_id, 1, 4)) %>%
+  group_by(year) %>%
+  summarise(
+    energy = sum(energy), 
+    inflation = sum(consumerinflation),
+    vagueness = sum(vague))
+
+df_long <- dfm_counts_all %>%
+  pivot_longer(cols = c(energy, inflation, vagueness), 
+               names_to = "Metric", 
+               values_to = "Count")
+```
+
+I then create the plot using a faceted ggplot. The plot shows an inversely proportional relationship between the role of the changes in energy prices and the level of vaguess and frequency of inflation discussion among the banks statements.
+
+```{r ggplot}
+ggplot(df_long, aes(x = year, y = Count, color = Metric, group = Metric)) +
+  geom_line(size = 1) +
+  facet_wrap(~Metric, ncol = 1, scales = "free_y") +
+  scale_color_manual(values = c(
+    "energy" = "chartreuse4", 
+    "inflation" = "sienna3", 
+    "vagueness" = "maroon")) +
+  theme_minimal() +
+  labs(title = "Comparing Trends Across Different Frequencies")
+```
+
