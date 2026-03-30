@@ -18,7 +18,8 @@ require(ggplot2)
 filenames <- list.files("FOMC", "\\.txt$") # Import data
 ```
 
-Extracting FOMCs from a list of files, I then read these texts using str. I then turn their texts into a corpus.
+Extracting FOMCs from a list of files, I then read these texts using str. 
+I then turn their texts into a corpus.
 
 ```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
 txts <-  readtext(paste0("FOMC",  "/", "*.txt"))[]
@@ -73,6 +74,7 @@ tail(precision)
 ```
 
 We repeat the same thing for key terms of topics regarding consumer inflation, output and producer inflation.
+
 ```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
 test_dict2 <- dictionary(list(
   consumerinflation = c("inflation", "price", "cost", "housing"), 
@@ -84,8 +86,12 @@ tail(topics)
 ```
 
 I implement this once more; using a dictionary list of positive, negative and neutral public sentiment, with similar word connotations.
+
 ```{r, echo=TRUE, message = FALSE, error = FALSE, warning = FALSE}
-test_sentiment <- dictionary(list(positive = c("agree", "yes", "happy"), negative = c("sad", "disagree", "no"), neutral = c("ambiguous", "maybe", "content")))
+test_sentiment <- dictionary(list(
+  positive = c("agree", "yes", "happy"), 
+  negative = c("sad", "disagree", "no"), 
+  neutral = c("ambiguous", "maybe", "content")))
 sentiment <- dfm_lookup(dfmCorp, dictionary = test_sentiment)
 sentiment
 head(sentiment)
@@ -137,7 +143,8 @@ Uncertaintydict <- dictionary(list(uncertainty = c("abeyance",
 "assuming",
 "assumption",
 "assumptions"),
-inflation = c("inflation", "price", "cost", "oil", "housing"), output = c("growth", "gap", "employment")))
+inflation = c("inflation", "price", "cost", "oil", "housing"), 
+output = c("growth", "gap", "employment")))
 ```
 
 ```{r, echo=FALSE, message = FALSE, error = FALSE, warning = FALSE}
