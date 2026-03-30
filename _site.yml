@@ -14,4 +14,6 @@ navbar:
     href: blog3.html
   - text: "US Banks"
     href: blog2.html
+  - text: "US Concessions"
+    href: blog4.html
 output: distill::distill_article
